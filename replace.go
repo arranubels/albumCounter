@@ -31,5 +31,5 @@ func main() {
 				return fmt.Sprintf("%s %d:%02d", in, mins, secs)
 			}
 		}))
-	fmt.Println("Thanks to: https://github.com/arranubels/albumCounter")
+	fmt.Println("https://github.com/arranubels/albumCounter")
 }
