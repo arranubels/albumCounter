@@ -1,4 +1,4 @@
-package main
+package album
 
 import (
 	"testing"
@@ -37,6 +37,39 @@ func TestAddTimestamps(t *testing.T) {
 			name:     "No Timestamps",
 			input:    "Just some text",
 			expected: "Just some text",
+		},
+		{
+			name: "Mixed Formats",
+			input: `Song A 1:00
+Song B 0:00:30
+Song C 65:00`,
+			// 1:00 (1m) -> Start 0:00. End +60s. Total 60s.
+			// 0:00:30 (30s) -> Start 1:00 (60s). End +30s. Total 90s.
+			// 65:00 (65m) -> Start 1:30 (90s).
+			expected: `Song A 1:00 0:00
+Song B 0:00:30 1:00
+Song C 65:00 1:30`,
+		},
+		{
+			name: "Multiple Timestamps per Line",
+			input: "Start 2:00 End 3:00",
+			expected: "Start 2:00 0:00 End 3:00 2:00",
+		},
+		{
+			name: "Partial Match in Numbers",
+			input: "Year 2024 is long 123:45",
+			// Matches 23:45 inside 123:45.
+			expected: "Year 2024 is long 123:45 0:00",
+		},
+		{
+			name: "Parentheses",
+			input: "Song (3:20)",
+			expected: "Song (3:20 0:00)",
+		},
+		{
+			name: "Malformed seconds",
+			input: "Song 2:5",
+			expected: "Song 2:5",
 		},
 	}
 

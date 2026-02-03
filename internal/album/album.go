@@ -1,9 +1,7 @@
-package main
+package album
 
 import (
 	"fmt"
-	"io"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -28,11 +26,4 @@ func AddTimestamps(input string) string {
 		}
 		return fmt.Sprintf("%s %d:%02d", in, mins, secs)
 	})
-}
-
-func main() {
-	allInput, _ := io.ReadAll(os.Stdin)
-	input := string(allInput)
-	fmt.Println(AddTimestamps(input))
-	fmt.Println("https://github.com/arranubels/albumCounter")
 }
